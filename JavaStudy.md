@@ -81,7 +81,7 @@
 
   类型 other = (类型)otherObject//进行类型转化
 
-  4.retunr ...//这里是自定义的条件，比较基本类型使用 == ，比较对象使用equals
+  4.return ...//这里是自定义的条件，比较基本类型使用 == ，比较对象使用equals
 
   5.如果是一个子类，则需要对超类进行比较，即super.equals(other)
   ```
@@ -159,7 +159,52 @@
 ## 异常
 - try{代码段}catch(Exception e){出错处理}
 
+
+
+### 以上为基础
+-------------------------------------------
+### 以下为高级技术
+
 ## 接口
+- `Interface`，接口非类而是对需求的描述
+```
+//定义接口
+public interface Compare{
+  int Max = 1000;
+  int compareTo(Object other);
+}
+函数签名：返回值类型 函数名 参数
+任何实现该接口的类都需要根据函数签名实现 compareTo 这个方法
+```
+- 接口中的所有方法自动声明为public,所有变量自动声明为 public static final 类型，不可更改的公有静态变量 
+```
+//实现接口
+ class Employee implements Compare<Employee>
+ { 
+   public int compareTo(Employee other){
+     return Double.compare(salary,other.salary);
+   }
+ }
+
+```
+- className  `instanceOf`  InterfaceName 可以检查该类是否实现了该接口
+- Comparable 和 Cloneable 是比较和拷贝对象的两个接口
+- 抽象类和接口的必要性：
+  - Java中为了避免类似于C++的多继承带来的复杂性，因此只允许使用单继承，但是为了有更加灵活的拓展性，因此引入了接口的概念。
+  - 接口和抽象类的主要区别在于如果一个类继承了抽象类，因为单继承的特性，就不能再继承其他的类，但是可以选择同时实现多个接口。例如：
+  ```
+    public class ClassName extends SuperClass implements interface1,interface2,...{
+      do something
+    }
+  ```
+- 接口中可以使用的修饰词有 `public` `abstract` `default` `static` `stricfp`
+  - `default` 修饰的方法为默认方法，当该方法没有被覆盖的时候默认使用定义在接口中的行为 
+
+## lambda表达式
+
+## 内部类
+
+## 代理
 
 
 
