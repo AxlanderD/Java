@@ -157,8 +157,19 @@
   - forName(String className):根据类名返回对应的Class对象
   - newInstance():创建一个类的对象
 ## 异常
-- try{代码段}catch(Exception e){出错处理}
+- try{...}catch(Exception|IOException e){...}catch{...}
+- 抛出异常
+```
+  //可以自定义异常
+  public void start() throws selfException{
+    ...
+    throw new selfException();
+  }
+```
+- `finally` 关键字无论有无异常最终都会执行，适合用于发生异常时回收资源和关闭文件或者数据库连接
 
+## 断言
+- `assert`
 
 
 ### 以上为基础
@@ -251,8 +262,62 @@ public interface Compare{
 - 内部类默认仅在定义内部类的类中可见，而包内的其他类不可见相当于权限控制在protected和private之间。但是可以将修饰符显式设置为 public。
 - 内部类并非每个实例中都会有该内部类的实例域，只有当调用构造的时候才会创建
 - 在外部类外引用内部类的时候写法如下：OutClass.InnerClass
+### 局部内部类
+```
+  //在方法中定义一个类
+  public void start()
+  {
+    class TimerCreate implements ActionListener{
+        int count = 0;
+        public void actionPerformed(ActionEvent e){
+            count++;
+            System.out.printf("This is %d times,now time is %s\n",count,new Date().toString());
+            // use outclass variable
+            if(beep)
+                Toolkit.getDefaultToolkit().beep();
+        }
+    }
+
+     ActionListener listener= new TimerCreate();
+        int ns = 1000;
+        Timer t = new Timer(interval*ns,listener);
+        t.start();
+  }
+```
+- 局部内部类的好处在于除了包含这个类的方法外，类中和包中的其他方法都不可以访问。
+### 匿名内部类
+```
+  //只创建类的一个对象
+  public void start()
+  {
+     //匿名内部类，创建一个实现了一个接口的类的对象
+     写法
+     Interface x = new Interface(args...){
+       statements...;
+     }
+
+     ActionListener listener= new ActionListener(){
+       int count = 0;
+        public void actionPerformed(ActionEvent e){
+            count++;
+            System.out.printf("This is %d times,now time is %s\n",count,new Date().toString());
+            // use outclass variable
+            if(beep)
+                Toolkit.getDefaultToolkit().beep();
+        }
+     };
+        int ns = 1000;
+        Timer t = new Timer(interval*ns,listener);
+        t.start();
+  }
+```
+- 匿名内部类一般用于写监听器，现在用lambda表达式来写会更加的简洁。
+
+## 静态内部类
+- 当不需要应用外部对象时候，应该声明为 static
 
 ## 代理
+
 ----
 ## 概念解析
 
