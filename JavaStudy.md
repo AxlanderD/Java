@@ -201,10 +201,45 @@ public interface Compare{
   - `default` 修饰的方法为默认方法，当该方法没有被覆盖的时候默认使用定义在接口中的行为 
 
 ## lambda表达式
+- lambda 主要是用于传递代码段。例如Arrays.sort(S,lambda)
+```
+  //lambda可以看作是一个代码块的简写,无需写出返回值类型和方法名 形如 
+  (类型 arg1,类型 arg2)->{
+    statements...;
+  }
+  //或者接口实现
+  Runnable runInterface = ()->{
+    statements...;
+  }
+
+
+  Arrays.sort(String[] s,(s1,s2)->s1.length()-s2.length());//更改默认的排序行为，传入了自定义的排序代码
+```
 
 ## 内部类
 
 ## 代理
+----
+## 概念解析
+
+## 深拷贝和浅拷贝 - clone
+- 默认的克隆是浅拷贝，对于对象中的引用变量会保存一份相同的引用副本而不会重新创建一个引用。如果这个被引用的对象没有更改器的方法，即不可变。那么是安全的，如果对象是可变的话就不安全。
+- 深拷贝则是在浅拷贝的基础上进一步对引用对象进行了复制,即深拷贝后，对象中的引用变量也进行了拷贝，不会是两个引用指向同一个子对象，而是两个引用分别指向一个对象
+```
+  //需要实现clonable 接口
+  public Employee clone() throws CloneNotSupportedException
+  {
+    return (Employee) super.clone;
+  }
+
+  //如果Employee这个类中存在例如Date这种可变对象，若要深拷贝则需要进一步操作
+  public Employee clone() throws CloneNotSupportedException
+  {
+    Employee deepClone = (Employee)super.clone();//object.clone,默认的克隆模式
+    deepClone.date = (Date)date.clone();
+    return deepClone;
+  }
+```
 
 
 
