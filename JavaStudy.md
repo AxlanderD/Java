@@ -201,22 +201,56 @@ public interface Compare{
   - `default` 修饰的方法为默认方法，当该方法没有被覆盖的时候默认使用定义在接口中的行为 
 
 ## lambda表达式
-- lambda 主要是用于传递代码段。例如Arrays.sort(S,lambda)
+- lambda 主要是用于传递代码段。例如Arrays.sort(S,lambda)。
+
 ```
+  //Java中的非法写法
+  function fun1 = ()->{
+    statements...;
+  }
+
+  or
+
+  Object obj = ()->{
+    statements...;
+  }
+  //因为Java中并不支持这种函数式编程,obj为一个对象而非接口
+```
+- 在Java中因为所有的方法都在类和接口中，本质上并没有函数式编程，因此lambda表达式在Java中遵循了这一点，只能用于转换为函数式接口，如例2
+```
+  例1
   //lambda可以看作是一个代码块的简写,无需写出返回值类型和方法名 形如 
   (类型 arg1,类型 arg2)->{
     statements...;
   }
+  例2
   //或者接口实现
-  Runnable runInterface = ()->{
+  Runnable run = ()->{
     statements...;
   }
+  new Thread(run).start();
 
 
   Arrays.sort(String[] s,(s1,s2)->s1.length()-s2.length());//更改默认的排序行为，传入了自定义的排序代码
 ```
+- 当想要实现的动作已经有了完成好的成品，可以使用更简便的一种写法。如 `System.out::print` 等价于 `e->System.out.print(e)` 或者 `Math::pow` 等价于`(x,y)->Math.pow(x,y)`<br> :: 表示方法引用.这点上和 C++中的类外引用方法有些类似，但是在Java中只是使用，C++中则是可以在类外定义。
+- 原本在表达式外的变量会被lambda表达式捕捉并且复制一份。因为表达式中的动作执行可能在相隔一段时间之后才会执行。而那个时候自由变量可能已经不存在了，所以lambda表达式需要及时捕获自由变量。而且自由变量必须是不可变的（final 类型），表达式内也不会对自由变量进行更改操作。
+```
+  public static void repeatMessage(String text,int dalay){
+    ActionListener listener = event->{
+      System.out.print(text);//注意这里的text是lambda表达式外传进来的自由变量
+      Toolkit.getDefaultToolkit().beep();
+    };
+    Timer t = new Timer(delay,listener);
+    t.start();
+  }
+```
 
 ## 内部类
+- 内部类可以访问外部类的变量
+- 内部类默认仅在定义内部类的类中可见，而包内的其他类不可见相当于权限控制在protected和private之间。但是可以将修饰符显式设置为 public。
+- 内部类并非每个实例中都会有该内部类的实例域，只有当调用构造的时候才会创建
+- 在外部类外引用内部类的时候写法如下：OutClass.InnerClass
 
 ## 代理
 ----
@@ -240,6 +274,8 @@ public interface Compare{
     return deepClone;
   }
 ```
+
+## 注解
 
 
 
