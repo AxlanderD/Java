@@ -1,3 +1,14 @@
+
+ * `@Author: alexander.DD4 `
+ * `@Date: 2020-01-07 16:11:39 `
+ * `@Last Modified by:   alexander.DD4 `
+ * `@Last Modified time: 2020-01-07 16:11:39 `
+
+## 基础知识
+- 基本类型和对象的引用变量存储在栈中
+- new 出来的对象存储在堆中
+- java中都是值传递，没有引用传递
+
 ## HashTable
 - Serializable 序列化
 - Dictionary 字典
@@ -17,15 +28,25 @@
 - 打包使用 package com.dwj (那么应该把源文件放在 子目录 com/dwj 下)
 - Jar包是一种压缩形式的包，可以改善性能而且该密封包一旦制作成功便无法添加更多的类在其中
 
-## private、public、default、protected
+## 访问控制 private、public、default、protected
 - `default` 默认被包内的所有类访问
 - `public` 都可以访问
 - `private` 仅本类才可以访问
 - `protected` 对本包以及所有子类可见
 
-## native、transient 
+## 非访问控制 native、transient、voliet、synchronized
+- `native`:本地方法，非Java实现
+- `transient`:短暂易逝，被标记的变量不参与序列化，不会被长久保存，适用于一些敏感信息
+- `volatile`:同步机制使用，表示禁止指令重排序，确保被修饰的变量不会被编译器自动优化发生改变。当用到这个变量的值的时候每次都会重新读取，更新到最新状态，而不会是从内存中取得。
+- `synchronized` :同步机制使用，表示同一时间被修饰的方法只可以由一个线程访问执行
 
 ## 泛型
+- <>声明在返回类型前
+```
+  public <E> void function1(){
+    ...
+  }
+```
 
 ## 变参方法
 - 例子如printf(" format ",args),format中参数参数，和后面的args参数数目不定，这时候不可能写一个方法对应一个情况把所有情况全都包含。
@@ -158,7 +179,8 @@
   - newInstance():创建一个类的对象
 ## 异常
 - try{...}catch(Exception|IOException e){...}catch{...}
-- 抛出异常
+- try(携带的资源){statement...} 带资源的try语句，无论是否出现exception都会关闭资源。
+- `throw` 抛出异常
 ```
   //可以自定义异常
   public void start() throws selfException{
@@ -169,7 +191,10 @@
 - `finally` 关键字无论有无异常最终都会执行，适合用于发生异常时回收资源和关闭文件或者数据库连接
 
 ## 断言
-- `assert`
+- `assert` 运行检查机制。使用方法，如 assert x!=2; 如果 x为2的话会报错
+
+## 即记录日志
+- Logger
 
 
 ### 以上为基础
@@ -316,7 +341,8 @@ public interface Compare{
 ## 静态内部类
 - 当不需要应用外部对象时候，应该声明为 static
 
-## 代理
+## 代理模式
+- 为其他对象提供一种`中介`模式来访问某个对象，这个中介可以过滤掉一些其他对象不应该看到的东西或者增加一些额外的服务。
 
 ----
 ## 概念解析
