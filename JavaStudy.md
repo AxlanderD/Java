@@ -367,6 +367,27 @@ public interface Compare{
 ```
 
 ## 注解
+- annotation
+
+## Java方法区、堆、栈
+- 方法区
+  - 各个线程共享的区域
+  - 用于存储被虚拟机加载的类信息，常量，静态变量和即时编译后的代码
+- 堆
+  - 存储关键字 new 产生的对象，对象中的实例变量，java数组也在堆中开辟空间
+  - 对于堆内存的管理根据对象存活周期 分为 新生代，老年代。老年代中的对象存活率较高。
+  新生代gc是minor gc 老年为full gc/major gc。以下是GC的算法
+    - 标记清除算法：基础回收算法。step1：标记 ；step2：清除
+
+    ![标记清除法](https://img-blog.csdn.net/20180617105859782?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDczOTgzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70 "标记清除算法")
+
+    - 复制算法：主要是针对新生代的内存回收。使用时，将新生代的内存容量分为大小相等的两部分，每次分配空间只用其中一片空间。进行内存回收时，先将使用部分的空间上存活的对象复制到另一块空间上，然后将这一半空间进行全部回收。
+
+    ![复制算法示意](https://img-blog.csdn.net/2018061711175251?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDczOTgzMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70 "复制算法")
+
+    [Java 堆新生代，老年代的划分及回收算法](https://blog.csdn.net/weixin_40739833/article/details/80717638)
 
 
+- 栈
+  - 存储局部变量、操作数、动态链接、方法出口信息、存储局部对象引用等
 
