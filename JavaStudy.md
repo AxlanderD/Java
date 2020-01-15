@@ -126,7 +126,7 @@
   同理，如果要对超类的私有域进行构造那就需要使用超类的构造器如：super(String name ,double Salary,LocalDate hireday);
   - 当有子类中存在对父类的覆盖方法的时候，这要区分调用的是父类的方法还是子类的方法。运行时自动选择调用方法的现象称之为 `动态绑定`。
   - 有动态绑定，同时当然也有`静态绑定`.使用private、static、final告知编译器准确的找到需要调的方法。
-  - 一个变量可以指向不同类型对象的现象称之为`多态性`(子类的对象也属于超类的对象)。
+  - 一个变量可以指向不同类型对象的现象称之为`多态性`(子类的对象也属于超类的对象)就比如 course.learn("java")/course.learn("html") 前者调用javaCource的learn方法，后者调用htmlCource的learn方法。
   - ```
       for(Employee e:staff){
         print(e.getSlary)
@@ -366,8 +366,46 @@ public interface Compare{
   }
 ```
 
-## 注解
-- annotation
+## 注解（Annotation）
+- 注解和 class、interrface、enum 一样也是一种类型
+```
+<!-- 注解的定义 -->
+
+public @interface TestAnnotation{
+
+}
+//定义了一个名字为 TestAnnotation 的注解
+```
+- 元注解，是最基本的注解，用于写在注解上面。 元注解有五种：@Retention、@Documented、@Target、@Inherited、@Repeatable
+- @Retention 保留期的意思，用于解释说明注解的存活时间
+  - RetentionPolicy.SOURCE : 只在源码阶段保留
+  - RetentionPolicy.CLASS : 八六到编译进行，但不会加载到JVM
+  - RetentionPolicy.RUNTIME ：一直存在
+- @Documented 和文档有关，将注解中的元素包含到Javadoc中
+- @Target 指定了运用注解的地方
+  - ElementType.ANNOTATION_TYPE：用于给注解进行注解
+  - ElementType.CONSTRUCTOR: 用于给构造方法进行注解
+  - ElementType.FIELD：给属性进行注解
+  - ElementType.LOCAL_VARIABLE：给局部变量进行注解
+  - ElementType.METHOD：给方法进行注解
+  - ElementType.PACKAGE: 给包进行注解
+  - ElementType.PARAMETER: 给方法内的参数进行注解
+  - ElementType.TYPE: 给一个类型进行注解，如类，接口，枚举
+- @Inherited 继承的注解，如果超类上应用了注解，但是子类上没有应用，那么就会自动继承超类的注解
+- @Repeatable 可重复注解，将一个注解变成可以多次应用的注解,是一个注解容器。例如 @Repeated(Person.class)
+
+- 注解中没有方法，只有成员变量，形如 int age(); int为返回值类型，age为变量名，()是必备的。注解中的属性类型必须是8中基本类型外加 类、接口、注解以及数组
+
+- JAVA中的预置注解，
+  - Deprecated 标记过时的元素
+  - Override 标记覆盖父类的方法
+  - SuppressWarnings 阻止警告
+  - SafeVarargs 提醒开发者不要用参数做一些不安全的操作 
+  - Functionallnterface 函数式接口注解
+
+[注解详细介绍](https://blog.csdn.net/qq1404510094/article/details/80577555)
+
+
 
 ## Java方法区、堆、栈
 - 方法区
@@ -390,4 +428,6 @@ public interface Compare{
 
 - 栈
   - 存储局部变量、操作数、动态链接、方法出口信息、存储局部对象引用等
+
+
 
