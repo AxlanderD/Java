@@ -128,6 +128,8 @@
 
 - Bean的生命周期
   - 单例模式：先进行创建，然后再进行初始化操作，最后进行销毁
+
+### 三种实现初始化和销毁的方法（xml，注解，接口）
 - xml方式：
 ```
 //init-method 指定初始化方法 ，destroy 指定销毁方法
@@ -142,3 +144,50 @@
 @PostConstruct (相当于是initMethod)
 @PreDestroy (相当于是destroyMethod)
 ```
+- 接口方式
+```
+//实现InitialzingBean和DisposableBean
+
+//或者实现一个接口 BeanPostProcessor
+但是这个接口会拦截所有的Bean，给所有的bean加上初始化和销毁方法，也可以对拦截的bean进行其他操作
+```
+
+- `@Qualifier`可以根据Bean名字来寻找进行自动装配。`@Autowire`只能在没有相同类型的Bean的时候单独使用，如果有相同类型的不同Bean则和`@Qualifier`结合使用
+```
+@Qualifier("BeanName")
+@Autowire
+
+@Primary//设置默认 
+```
+- `@Resource`也可以进行自动装配（是JSR250提供的注解，@Autowired是Spring提供的注解）
+- `@Inject`也可以进行自动装配（是JSR330提供的注解）
+
+## 对Spring底层组件开发
+- 对 Aware 的子接口进行开发
+```
+@Component
+public class newComponent implements ApplicationContextAware {
+  //这个实现方法中的 applicationContext 就是容器，当启动容器的时候，会先执行这个实现类中的方法，例如这里就是进行了打印
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("Context Component :"+ applicationContext);
+    }
+}
+```
+- `@Profile`指定当前运行环境。在VM options中输入-Dspring.profiles.active=环境名字来指定当前虚拟机的运行环境
+```
+//或者通过硬编码方式实现
+AnnotationConfigApplicationContext ct = new AnnotationConfigApplicationContext();
+
+            ConfigurableEnvironment e = (ConfigurableEnvironment) ct.getEnvironment();
+            e.setActiveProfiles("DEV");
+
+            //重新注册环境，并且进行手动刷新
+            ct.register(MyBeanFactory.class);
+            ct.refresh();
+```
+- `BeanPostProcessor`接口，是一个拦截器，拦截所有的 Bean
+
+- Spring 监听器，必须实现ApplicationListener接口的方法，且被监听的对象只能是ApplicationEven的子类或者接口
+- Bean生成的流程：
+声明Bean`->`BeanDefinitionRegistryPostProcessor(解析加载Bean之前的拦截器)`->`解析Bean`->`BeanFactoryPostProcessor(Bean工厂的拦截器)`->`实例化Bean`->`BeanPostProcessor(所有Bean的拦截器)`->`DI注入属性值
