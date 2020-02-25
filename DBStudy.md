@@ -66,6 +66,7 @@ SELECT country, app_name FROM apps
 WHERE country='CN'
 ORDER BY country;
 ```
+- `Having`子句，和 group by 联用，对结果集进行筛选
 <!-- Mysql语法 -->
 - `limit` 限制范围 用于规定返回的记录条数
 
