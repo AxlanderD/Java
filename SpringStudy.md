@@ -20,7 +20,7 @@
             <property name = "变量名" ref= "应用对象的类名"></property>
         </bean>
         ```
-    - 构造器注入
+    - 构造器注入configurations
       ```
         <!--<constructor-arg name = "courseName" value = "java"></constructor-arg>-->
         <!--<constructor-arg name = "teacher" ref = "teacher"></constructor-arg>-->
@@ -188,6 +188,48 @@ AnnotationConfigApplicationContext ct = new AnnotationConfigApplicationContext()
 ```
 - `BeanPostProcessor`接口，是一个拦截器，拦截所有的 Bean
 
-- Spring 监听器，必须实现ApplicationListener接口的方法，且被监听的对象只能是ApplicationEven的子类或者接口
+- Spring 监听器
+  - 方法一：接口实现。必须实现ApplicationListener接口的方法，且被监听的对象只能是ApplicationEven的子类或者接口
+  - 方法二：@EventListener(classes = {xxxx.class})
+- 事件发布
+
 - Bean生成的流程：
 声明Bean`->`BeanDefinitionRegistryPostProcessor(解析加载Bean之前的拦截器)`->`解析Bean`->`BeanFactoryPostProcessor(Bean工厂的拦截器)`->`实例化Bean`->`BeanPostProcessor(所有Bean的拦截器)`->`DI注入属性值
+
+
+## SpringBoot学习
+- `@SpringBootConfiguration`注解，表示这个类为配置类。
+- `@EnableAutoConfiguration`开启自动配置（如webConfiig.xml/applicationContext.xml等等）
+
+- SpringBoot中的`application.properties`是全局配置文件，可以更改默认的约定配置
+- `@PropertySource(value = {"classpath:config.properties"})`该注解可以指定相对应的配置文件，而不使用默认的配置文件路径。
+- `@ImportResource`可以导入自己编写的配置文件，而不使用SpringBoot默认的配置
+
+- `@Configuration` 表示为配置类 `@Bean`用于注册bean
+
+- 随机占位符表达式：
+```
+//用在配置文件中，properties或yml
+${random.uuid} 随机uuid
+${random.value} 随机字符串
+${random.int} 随机整数
+${random.long} 随机长整型数
+${random.int(10)} 10以内的整数
+${random.int[a,b]} 指定随机数范围
+```
+
+- `--spring.profile.active` 配置激活环境
+- `--spring.config.location=D:/application.properties` 指定配置路径，包外配置的使用优先级比包内配置文件高
+
+## 日志
+- 日志等级：`trace < debug < info < warn < error < fatal < off`
+- logging.pattern.console=%d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n
+  - %d：日期时间，{yyyy-MM-dd} 表示时间格式
+  - %thread：线程名
+  - %-5level：显示日志级别 -5 表示从左显示5个字符宽度
+  - %logger{50}：设置日志长度
+  - %msg：日志消息
+  - %n：换行
+
+## 静态资源 html/js/css 加载 
+- SpringBoot通过jar包形式进行静态资源加载
