@@ -237,5 +237,28 @@ ${random.int[a,b]} 指定随机数范围
 ### Tips
 - 80端口是http协议端口，使用这个端口可以直接输入 域名（www.xxxxx.com）来访问项目，而不需要使用 域名+端口号(www.xxxxx.com:8080/xxx.html) 的形式来进行访问
 - ngnix可以监听80端口然后通过代理，将请求转发到另外的端口，这样就可以实现多个项目存在于同一个实例服务器。也可以实现反向代理集群（反向代理）
+- 使用`@ResponseBody`注解后返回的是字符串或者数据本身（如json）
+- 使用`@Controller`注解后返回的是页面
+- `@RestController` = Controller + ResponseBody 使用后返回json数据不需要使用 @ResponseBody 但是无法返回jsp或者html 
 
+- `@GetMapping`,`@PostMapping`,`@DeleteMapping`,`@PutMapping`,`@PatchMapping` 是`@RequesMapping`的细分
+@RequestMapping(value = "c1",
+method = RequestMethod.GET/
+         RequestMethod.POST/
+         RequestMethod.DELETE/
+         RequestMethod.PUT/
+         RequestMethod.PATCH
+)
+</br>
+  - get：查询服务
+  - post：提交大量数据
+  - delete：客户端请求删除服务端上指定的文档
+  - put：向服务器上传新文档
+  - patch： 局部更新应用到的资源  
 
+- Restful api和传统api的区别，使用统一的url（如同 xxx/shopping），通过请求的方法来进行区别，method.put/post/delete/put/patch..等等
+
+- `@JsonIgnore`：进行Json序列化的时候忽略使用了该属性的注解 
+- `@JsonFormat`：进行格式化
+
+- `@ControllerAdvice`：是Controller的增强版,可以用于处理全局数据，常见的是处理全局异常

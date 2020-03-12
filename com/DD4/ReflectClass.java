@@ -95,7 +95,7 @@ public class ReflectClass{
             className = args[0];
         else{
             Scanner in = new Scanner(System.in);
-            System.out.println("enter className(e.g java.tuil.Date):");
+            System.out.println("enter className(e.g java.util.Date):");
             className = in.next();
         }
         try{
