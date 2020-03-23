@@ -1,3 +1,4 @@
+package JAVA;
 public class outClass{
     private int v1;
     public int v2;

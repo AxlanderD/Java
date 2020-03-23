@@ -4,6 +4,14 @@ public class threadTest{
     private volatile int j = 10;
     private volatile int i = 5;
 
+    static void staticTest(){
+        System.out.println("override static?");
+    }
+
+    private void privateTest(){
+        System.out.println("override private?");
+    }
+
     synchronized public void addOne(){
         j++;
         i--;

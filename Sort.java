@@ -1,3 +1,7 @@
+
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
@@ -27,6 +32,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.management.Query;
 import javax.management.QueryExp;
@@ -34,12 +41,13 @@ import javax.print.attribute.standard.MediaSize.Other;
 
 import javafx.print.Collation;
 
-public class Sort implements Serializable{
+
+public class Sort extends threadTest implements Serializable{
 
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
     private int v1;
     private int v2;
     public int v3;
@@ -58,13 +66,14 @@ public class Sort implements Serializable{
            this.v3 = o.v3;
     }
 
+
     @Override
     public String toString(){
         return "{v1:"+this.v1+",v2:"+this.v2+",v3:"+this.v3+"}";
     }
 
-    public static void XuanZeSort(int [] array){
-        int len = array.length;
+    public static void XuanZeSort (int [] array){
+     int len = array.length;
         for(int i = len-1;i>=0;i--){
             int temp = array[i];
             for(int j = 0;j < i;j++){
@@ -77,13 +86,13 @@ public class Sort implements Serializable{
         }
     }
     
-    public static void MaoPaoSort(int [] array){
-        int len = array.length;
+    public static void MaoPaoSort (int [] array){
+     int len = array.length;
         for(int i =0;i<len;i++){
             for(int j = 0;j<len-1;j++){
                 if(array[j]>array[j+1])
                 {
-                    int temp = array[j];
+                 int temp = array[j];
                     array[j] = array[j+1];
                     array[j+1] = temp;
                 }
@@ -91,12 +100,12 @@ public class Sort implements Serializable{
         }
     }
 
-    public static void QuickSort(int [] array,int left,int right){
-        int i = left;
-        int j = right;
+    public static void QuickSort (int [] array,int left,int right){
+     int i = left;
+     int j = right;
         if(left>right)
             return;
-        int temp = array[left];
+     int temp = array[left];
         while(left!=right){
             while(left<right&&array[right]>temp){
                 right--;
@@ -113,13 +122,28 @@ public class Sort implements Serializable{
 
     }
 
+    public static int halfSearch(int[] arr,int begin,int end,int target){
+        if(target>arr[end]||begin>end)
+            return -1;
+        int mid = (end + begin)/2;
+        if(target==arr[mid])
+            return mid;
+        if(target>arr[mid]){
+            return halfSearch(arr,mid+1, end, target);
+        }
+        if(target<arr[mid]){
+            return halfSearch(arr, begin,mid-1, target);
+        }
+        return -1;
+    }
+
     public static void swap(Integer a,Integer b){
-        Integer temp = new Integer(a.intValue());
+     Integer temp = new Integer(a.intValue());
         a = b.intValue();
         b = temp.intValue();
     }
 
-    public static <K,V> void printMap(Map<K,V> map){
+    public static <K,V> void printMap (Map<K,V> map){
       
         System.out.println("----------------");
         map.forEach((k,v)->{
@@ -128,21 +152,36 @@ public class Sort implements Serializable{
         System.out.println("----------------");
     }
 
-    public static void main(String []args) throws IOException{
-        int [] arr =new int[] {9,8,7,6,5,4,3,2,1,0,-1,-2,69,105,-123,0};
-        int [] a1 = arr.clone();
-        int [] a2 = arr.clone();
-        int [] a3 = arr.clone();
+
+    public void test1(){
+        System.out.println("implements test1");
+    }
+
+ 
+
+    // static void testStatic(){
+    //     System.out.println("Override static??");
+    // }
+
+    public static void testLambada(testInterface<String> i,String str){
+            i.test1(str);
+    }
+
+    public static void main(String[] args){
+     int [] arr =new int[] {9,8,7,6,5,4,3,2,1,0,-1,-2,69,105,-123,0};
+     int [] a1 = arr.clone();
+     int [] a2 = arr.clone();
+     int [] a3 = arr.clone();
         Sort.XuanZeSort(a1);
         Sort.MaoPaoSort(a2);
         Sort.QuickSort(a3,0,a3.length-1);
-        for(int e:a1)
+        for (int e:a1)
             System.out.print(e+" ");
         System.out.println();
-        for(int e:a2)
+        for (int e:a2)
             System.out.print(e+" ");
         System.out.println();
-        for(int e:a3)
+        for (int e:a3)
             System.out.print(e+" ");
 
         String a = "XX是好XX";
@@ -150,23 +189,23 @@ public class Sort implements Serializable{
         try{
             a =new String(a.getBytes("GBK"),"UTF-8");
             System.out.println(a);
-        }catch(Exception e){
+        }catch (Exception e){
             e.printStackTrace();
         }
         
-        ArrayList<Singleton> arrayList = new ArrayList<>();
+     ArrayList<Singleton> arrayList = new ArrayList<>();
         arrayList.add(Singleton.getInstance());
         arrayList.add(Singleton.getInstance());
 
-        for(Singleton e:arrayList){
+        for (Singleton e:arrayList){
             e.getInstanceNum();
         }
         System.out.println(arrayList.get(0) == arrayList.get(1));
 
-        Runnable run = ()->{
+     Runnable run = ()->{
             try{
                 System.out.println(new String("输出".getBytes("GBK"),"UTF-8"));
-            }catch(Exception e){
+            }catch (Exception e){
                 e.printStackTrace();
             }
             
@@ -180,19 +219,19 @@ public class Sort implements Serializable{
          
         
 
-        Hashtable<String, Integer> hashtable = new Hashtable<>();
+     Hashtable<String, Integer> hashtable = new Hashtable<>();
         hashtable.put("hash1", Integer.valueOf("24"));
         hashtable.put("hash2", Integer.valueOf("46"));
         hashtable.put("hash3", Integer.valueOf("12"));
         hashtable.put("hash4", 10);
         
-        LinkedHashMap<String,Integer> linkedHashMap = new LinkedHashMap<>(); 
+     LinkedHashMap<String,Integer> linkedHashMap = new LinkedHashMap<>(); 
         linkedHashMap.put("hash1", Integer.valueOf("24"));
         linkedHashMap.put("hash2", Integer.valueOf("46"));
         linkedHashMap.put("hash3", Integer.valueOf("12"));
         linkedHashMap.put(null, null);
 
-        TreeMap<String,Integer> treeMap = new TreeMap<>();
+     TreeMap<String,Integer> treeMap = new TreeMap<>();
         treeMap.put("hash1", Integer.valueOf("24"));
         treeMap.put("hash2", Integer.valueOf("46"));
         treeMap.put("hash3", Integer.valueOf("12"));
@@ -218,14 +257,6 @@ public class Sort implements Serializable{
         
         Sort s2 = new Sort(1,2,3);
         Sort ss = new Sort(s2);
-        outClass os = new outClass(1,2); 
-        
-        os.v2 = os.v2+1;
-    
-        System.out.println(hashMap.hashCode() == linkedHashMap.hashCode());
-
-        extendsClass ec= new extendsClass();
-        outClass.inner in =  os.new inner();
 
         System.out.println(Thread.activeCount());
         Integer va = Integer.valueOf("159");
@@ -247,23 +278,48 @@ public class Sort implements Serializable{
              ObjectOutputStream ot = new ObjectOutputStream(new FileOutputStream("Object.txt"));
              ot.writeObject(s2);
         
-        }catch(IOException e){
+        }catch (IOException e){
             e.printStackTrace();
-        }finally{
-            ObjectInputStream it = new ObjectInputStream(new FileInputStream("Object.txt"));
+        }
+        finally{
+            
             try{
-                Object o =  it.readObject();
+             ObjectInputStream it = new ObjectInputStream(new FileInputStream("Object.txt"));
+             Object o =  it.readObject();
                 System.out.println(o.toString());
-            }catch(Exception e){
-                e.printStackTrace();
+            }catch (Exception ex){
+                ex.printStackTrace();
             }finally{
                 System.out.println("finish");
             }
             
         }
-       
-    }
 
-    
+     String str = "成都市(成华区)(武侯区)(高新区)";
+
+     Pattern p = Pattern.compile("\\(.*\\)");
+     Matcher m = p.matcher(str);
+        if(m.find()) {
+            System.out.println(m.group());
+        }
+
+        int [] t = new int[]{1,4,6,40,52,69,78,88,92,100};
+        Scanner scan = new Scanner(System.in);
+        System.out.println("target :");
+        int target = scan.nextInt();
+        try{
+            int index = Sort.halfSearch(t,0,t.length-1,target);
+            if(index!=-1)
+                System.out.println("index:"+index+" arr["+index+"]:"+t[index]);
+            else
+                System.out.println("not find");
+        }catch(Exception e){
+            e.printStackTrace();}
+        finally{
+            scan.close();
+        }
+        }
 }
+    
+
 

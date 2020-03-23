@@ -9,4 +9,6 @@ public class extendsClass extends outClass implements Comparable<extendsClass>{
     public int compareTo(extendsClass o){
         return this.id - o.id;
     };
+
+
 }
